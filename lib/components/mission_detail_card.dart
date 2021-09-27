@@ -100,7 +100,6 @@ class MissionDetailCard extends StatelessWidget {
                       child: Text(
                         "Description" ,
                         style: TextStyle(
-                            // fontSize: 15,
                             color: Colors.white
                         ),
                       ),

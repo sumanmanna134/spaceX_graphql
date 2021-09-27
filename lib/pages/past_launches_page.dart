@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:spacex/components/loader.dart';
 import 'package:spacex/components/mission_card.dart';
-import 'package:spacex/constants/Label.dart';
+import 'package:spacex/constants/constant.dart';
 import 'package:spacex/models/models.dart';
 import 'package:spacex/provider/graphql_call.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:spacex/constants/Label.dart';
+import 'package:spacex/constants/constant.dart';
 class PastLaunches extends StatefulWidget {
   @override
   _PastLaunchesState createState() => _PastLaunchesState();
@@ -14,7 +14,7 @@ class PastLaunches extends StatefulWidget {
 
 class _PastLaunchesState extends State<PastLaunches> {
 
-  final String headingLabel = Label.pastLaunchesHeading;
+  final String headingLabel = Constant.pastLaunchesHeading;
   List<MissionCard> missionCards = [];
   bool loader = true;
   List<Models> pastLaunchesList = [];
@@ -23,14 +23,13 @@ class _PastLaunchesState extends State<PastLaunches> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getPastLaunchesList();
   }
 
   void getPastLaunchesList() async
   {
-    await context.read<GraphqlCall>().CallPast();
+    await context.read<GraphqlCall>().callPast();
     setState(() {
       pastLaunchesList = context.read<GraphqlCall>().pastData;
     });
@@ -42,12 +41,12 @@ class _PastLaunchesState extends State<PastLaunches> {
           missionName: pastLaunchesList[i].missionName,
           rocketName: pastLaunchesList[i].rocket.rocketName,
           launchDate: DateFormat('yyyy-MM-dd – kk:mm').format(pastLaunchesList[i].launchDateUtc),
-          rocketImageUrl: pastLaunchesList[i].links.flickrImages.isEmpty ? 'https://static.scientificamerican.com/sciam/cache/file/4FAC51BC-0AAA-49D6-821EDD4BA053B2F0.jpg' :  pastLaunchesList[i].links.flickrImages[0],
+          rocketImageUrl: pastLaunchesList[i].links.flickrImages.isEmpty ? Constant.defaultRocketImageUrl :  pastLaunchesList[i].links.flickrImages[0],
           model: pastLaunchesList[i],
         ));
       }
     }catch(e){
-      print("eeeeeeeeeeeeeee : $e");
+      print(e);
     }
     setState(() {
       loader = false;
@@ -55,7 +54,7 @@ class _PastLaunchesState extends State<PastLaunches> {
   }
 
   void selectedFilter(String selectedValue){
-    if(selectedValue == Label.filterList[0])
+    if(selectedValue == Constant.filterList[0])
       missionCards.sort((a,b){
         return (a.missionName.compareTo(b.missionName));
       });
@@ -93,12 +92,12 @@ class _PastLaunchesState extends State<PastLaunches> {
                     padding: EdgeInsets.only(right: 15, bottom: 10),
                     child: DropdownButton<String>(
                       iconEnabledColor: Colors.white,
-                      dropdownColor: Colors.black,
+                      dropdownColor: Color(0xff353935),
                       style: TextStyle(
                         color: Colors.white
                       ),
                       hint: Text(
-                          "Filter" ,
+                          Constant.filter ,
                         style: TextStyle(
                           color: Colors.white
                         ),
@@ -110,7 +109,7 @@ class _PastLaunchesState extends State<PastLaunches> {
                           selectedFilter(choosenFilter);
                         });
                       },
-                      items: Label.filterList.map((String itemValue) {
+                      items: Constant.filterList.map((String itemValue) {
                         return DropdownMenuItem<String>(
                           value: itemValue,
                           child: Text(
@@ -121,7 +120,6 @@ class _PastLaunchesState extends State<PastLaunches> {
                     ),
                   ),
                 ),
-                // SizedBox(width: 12,),
               ],
             ),
           ),

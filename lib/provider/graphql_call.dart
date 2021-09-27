@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:gql_http_link/gql_http_link.dart';
+import 'package:spacex/constants/constant.dart';
 import 'package:spacex/models/models.dart';
 
 class GraphqlCall extends ChangeNotifier {
@@ -52,9 +53,9 @@ class GraphqlCall extends ChangeNotifier {
             }
         """;
 
-    Future<void> CallPast() async{
+    Future<void> callPast() async{
 
-    final link = HttpLink("https://api.spacex.land/graphql/");
+    final link = HttpLink(Constant.graphqlUrl);
     final GraphQLClient client = GraphQLClient(link: link, cache: GraphQLCache());
      try{
      final QueryResult _queryResult = await client.query(
@@ -68,15 +69,15 @@ class GraphqlCall extends ChangeNotifier {
          result.map<Models>((x) => Models.fromJson(x)).toList();
 
      } catch(e){
-       print("errorrrrrrrrrrrrrrrrrrrrrrrrr $e");
+       print(e);
      }
 
     notifyListeners();
   }
   
-    Future<void> CallUpcoming() async{
+    Future<void> callUpcoming() async{
 
-      final link = HttpLink("https://api.spacex.land/graphql/");
+      final link = HttpLink(Constant.graphqlUrl);
       final GraphQLClient client = GraphQLClient(link: link, cache: GraphQLCache());
       try{
         final QueryResult _queryResult = await client.query(
@@ -90,7 +91,7 @@ class GraphqlCall extends ChangeNotifier {
             result.map<Models>((x) => Models.fromJson(x)).toList();
 
       } catch(e){
-        print("errorrrrrrrrrrrrrrrrrrrrrrrrr $e");
+        print(e);
       }
 
       notifyListeners();
