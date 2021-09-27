@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spacex/pages/past_launches_page.dart';
 import 'package:spacex/pages/upcoming_launches_page.dart';
-import 'package:spacex/constants/Label.dart';
+import 'package:spacex/constants/constant.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          Label.appBarHeading,
+          Constant.appBarHeading,
           style: TextStyle(
               color: Colors.white,
               fontSize: 18,

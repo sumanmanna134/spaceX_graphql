@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spacex/constants/Label.dart';
+import 'package:spacex/constants/constant.dart';
 import 'package:spacex/constants/styling.dart';
 import 'package:spacex/models/models.dart';
 
@@ -43,7 +43,7 @@ class MissionCard extends StatelessWidget {
                         SizedBox(height: 10,),
                         Container(
                           child: Text(
-                            Label.rocketLabel,
+                            Constant.rocketLabel,
                             style: Styling.cardLabel,
                           ),
                         ),
@@ -59,7 +59,7 @@ class MissionCard extends StatelessWidget {
                         SizedBox(height: 10,),
                         Container(
                           child: Text(
-                            Label.launchingDateLabel,
+                            Constant.launchingDateLabel,
                             style: Styling.cardLabel,
                           ),
                         ),

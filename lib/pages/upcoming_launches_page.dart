@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spacex/components/loader.dart';
 import 'package:spacex/components/mission_card.dart';
-import 'package:spacex/constants/Label.dart';
+import 'package:spacex/constants/constant.dart';
 import 'package:spacex/models/models.dart';
 import 'package:spacex/provider/graphql_call.dart';
 import 'package:provider/provider.dart';
@@ -14,21 +14,20 @@ class UpcomingLaunches extends StatefulWidget {
 
 class _UpcomingLaunchesState extends State<UpcomingLaunches> {
 
-  String headingLabel = Label.upcomingLaunchesHeading;
+  String headingLabel = Constant.upcomingLaunchesHeading;
   List<MissionCard> missionCards=[];
   bool loader = true;
   List<Models> upcomingLaunchesList = [];
   String choosenFilter;
 
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUpcomingLaunchesList();
   }
 
   Future<void> getUpcomingLaunchesList() async
   {
-    await context.read<GraphqlCall>().CallUpcoming();
+    await context.read<GraphqlCall>().callUpcoming();
     setState(() {
       upcomingLaunchesList = context.read<GraphqlCall>().upcomingData;
     });
@@ -40,12 +39,12 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches> {
           missionName: upcomingLaunchesList[i].missionName,
           rocketName: upcomingLaunchesList[i].rocket.rocketName,
           launchDate: DateFormat('yyyy-MM-dd – kk:mm').format(upcomingLaunchesList[i].launchDateUtc),
-          rocketImageUrl: upcomingLaunchesList[i].links.flickrImages.isEmpty ? 'https://static.scientificamerican.com/sciam/cache/file/4FAC51BC-0AAA-49D6-821EDD4BA053B2F0.jpg' :  upcomingLaunchesList[i].links.flickrImages[0],
+          rocketImageUrl: upcomingLaunchesList[i].links.flickrImages.isEmpty ? Constant.defaultRocketImageUrl :  upcomingLaunchesList[i].links.flickrImages[0],
           model: upcomingLaunchesList[i],
         ));
       }
     }catch(e){
-      print("eeeeeeeeeeeeeee : $e");
+      print(e);
     }
     missionCards.sort((a,b){
       return (a.missionName.compareTo(b.missionName));
@@ -55,7 +54,7 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches> {
     });
   }
   void selectedFilter(String selectedValue){
-    if(selectedValue == Label.filterList[0])
+    if(selectedValue == Constant.filterList[0])
       missionCards.sort((a,b){
         return (a.missionName.compareTo(b.missionName));
       });
@@ -93,12 +92,12 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches> {
                     padding: EdgeInsets.only(right: 15, bottom: 10),
                     child: DropdownButton<String>(
                       iconEnabledColor: Colors.white,
-                      dropdownColor: Colors.black,
+                      dropdownColor: Color(0xff353935),
                       style: TextStyle(
                           color: Colors.white,
                       ),
                       hint: Text(
-                        "Filter" ,
+                        Constant.filter ,
                         style: TextStyle(
                             color: Colors.white
                         ),
@@ -110,7 +109,7 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches> {
                           selectedFilter(choosenFilter);
                         });
                       },
-                      items: Label.filterList.map((String itemValue) {
+                      items: Constant.filterList.map((String itemValue) {
                         return DropdownMenuItem<String>(
                           value: itemValue,
                           child: Text(
